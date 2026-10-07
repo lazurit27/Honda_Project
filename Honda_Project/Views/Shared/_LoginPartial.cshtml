@@ -1,0 +1,32 @@
+﻿<ul class="navbar-nav ms-auto align-items-center gap-1">
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <li class="nav-item me-2">
+            <span class="nav-link text-light fw-semibold">
+               <a asp-controller="Account" asp-action="Profile"> <i class="bi bi-person-circle me-1 text-danger"></i>@User.Identity.Name
+                   </a>
+            </span>
+        </li>
+        <li class="nav-item">
+            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3 py-1 fw-semibold">
+                    Logout
+                </button>
+            </form>
+        </li>
+
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-light fw-semibold px-3" asp-controller="Account" asp-action="Login">
+                Login
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-danger btn-sm rounded-pill px-3 py-1 fw-semibold ms-1" asp-controller="Account" asp-action="Register">
+                Register
+            </a>
+        </li>
+    }
+</ul>

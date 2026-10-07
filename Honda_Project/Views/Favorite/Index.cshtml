@@ -1,0 +1,110 @@
+﻿@model List<Honda_Project.Favorite.FavoriteRow>
+
+@{
+    ViewData["Title"] = "Избранное";
+}
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-white fw-bold">
+            <i class="bi bi-heart-fill text-danger me-2"></i>Избранные товары
+        </h2>
+        @if (Model != null && Model.Any())
+        {
+            <form asp-controller="Favorite" asp-action="Remove" method="post">
+                <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3">
+                    <i class="bi bi-trash me-1"></i>Очистить всё
+                </button>
+            </form>
+        }
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="card bg-dark border-secondary text-white text-center py-5 shadow rounded-4">
+            <div class="card-body">
+                <i class="bi bi-heartbreak display-1 text-muted mb-3 d-block"></i>
+                <h4 class="fw-bold">Список избранного пуст</h4>
+                <p class="text-white-50 mb-4">Вы пока не добавили ни одного автомобиля в избранное.</p>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-danger rounded-pill px-4 fw-semibold">
+                    Перейти к каталогу
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="card bg-dark border-secondary text-white shadow rounded-4 overflow-hidden">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover align-middle mb-0">
+                    <thead class="table-borderless border-bottom border-secondary text-white-50">
+                        <tr>
+                            <th scope="col" class="ps-4">Товар</th>
+                            <th scope="col">Год</th>
+                            <th scope="col">Статус</th>
+                            <th scope="col">Цена</th>
+                            <th scope="col" class="text-end pe-4">Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <img src="@(string.IsNullOrEmpty(item.MainImageUrl) ? "/images/no-image.png" : item.MainImageUrl)"
+                                             alt="@item.Title"
+                                             class="rounded-3 object-fit-cover"
+                                             style="width: 80px; height: 60px;" />
+                                        <div>
+                                            <h6 class="mb-1 fw-bold text-white">@item.Title</h6>
+                                            <small class="text-white-50 text-truncate d-block" style="max-width: 250px;">
+                                                @item.Description
+                                            </small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>@item.Year</td>
+                                <td>
+                                    @if (item.IsAvailable)
+                                    {
+                                        <span class="badge bg-success bg-opacity-25 text-success rounded-pill px-3 py-1">
+                                            В наличии
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary bg-opacity-25 text-white-50 rounded-pill px-3 py-1">
+                                            Нет в наличии
+                                        </span>
+                                    }
+                                </td>
+                                <td class="fw-bold text-danger">
+                                    $@item.Price.ToString("N0")
+                                </td>
+                                <td class="text-end pe-4">
+                                    
+                                    <div class="d-inline-flex gap-2">
+                                        <form asp-controller="Favorite" asp-action="Decrease" asp-route-id="@item.ProductID" method="post">
+                                            <button type="submit" class="btn btn-outline-warning btn-sm rounded-pill px-3" title="Уменьшить количество / удалить единицу">
+                                                <i class="bi bi-dash-lg"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="d-inline-flex gap-2">
+                                    <a asp-controller="CarProducts"
+                                       asp-action="Details"
+                                       asp-route-id="@item.ProductID"
+                                       class="btn btn-sm rounded-pill px-3 btn-outline-primary">
+                                        Подробнее <i class="bi bi-arrow-right ms-1"></i>
+                                    </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>

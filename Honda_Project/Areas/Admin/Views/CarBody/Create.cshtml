@@ -1,0 +1,63 @@
+﻿@using Honda_Project.Areas.Admin.ViewsModels
+@model CarBodyCreate
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Создание типа кузова";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card bg-dark text-white shadow-lg border-secondary rounded-4">
+                <div class="card-header border-secondary bg-transparent p-4 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="fw-bold mb-1 text-white">
+                            <i class="bi bi-car-front me-2 text-danger"></i>Создать тип кузова
+                        </h3>
+                        <p class="text-muted mb-0 fs-7">Добавление нового типа кузова в каталог</p>
+                    </div>
+                    <span class="badge bg-danger px-3 py-2 fs-7">Тип кузова</span>
+                </div>
+
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-4">
+                            <label asp-for="Name" class="form-label text-light fw-semibold">
+                                <i class="bi bi-tag me-1 text-danger"></i>Название типа кузова
+                            </label>
+                            <input asp-for="Name" class="form-control custom-input" placeholder="Например: Седан, Хэтчбек, Внедорожник" />
+                            <span asp-validation-for="Name" class="text-danger fs-7 mt-1 d-block"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Description" class="form-label text-light fw-semibold">
+                                <i class="bi bi-card-text me-1 text-danger"></i>Описание
+                            </label>
+                            <textarea asp-for="Description" class="form-control custom-input" rows="4" placeholder="Краткая характеристика или описание типа кузова..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger fs-7 mt-1 d-block"></span>
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-between pt-3 border-top border-secondary">
+                            <a asp-action="Index" class="btn btn-outline-light rounded-pill px-4 py-2 fw-semibold">
+                                <i class="bi bi-arrow-left me-1"></i>Отмена
+                            </a>
+                            <button type="submit" class="btn btn-danger rounded-pill px-4 py-2 fw-bold">
+                                <i class="bi bi-check-lg me-1"></i>Сохранить кузов
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

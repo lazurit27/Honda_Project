@@ -1,0 +1,10 @@
+﻿@model int
+
+<a asp-controller="Favorite" asp-action="Index" class="btn btn-outline-light position-relative rounded-pill px-3 py-1">
+    <i class="bi bi-heart-fill text-danger me-1"></i>
+    <span class="fw-semibold">Избранное</span>
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger badge-favorite-count" 
+          style="@(Model > 0 ? "" : "display:none;")">
+        @Model
+    </span>
+</a>

@@ -1,0 +1,170 @@
+﻿@using Honda_Project.Enums
+@model ProductFilter
+
+@{
+    ViewData["Title"] = "Каталог автомобилей";
+}
+
+<div class="container py-4">
+    <div class="row g-4">
+        
+
+        <div class="col-lg-3">
+            <div class="card bg-dark border-secondary rounded-4 p-3 shadow-sm sticky-top" style="top: 90px;">
+                <h5 class="text-white fw-bold mb-3 d-flex align-items-center justify-content-between">
+                    <span><i class="bi bi-funnel text-danger me-2"></i>Фильтры</span>
+                    <a asp-action="Index" class="btn btn-sm btn-link text-white-50 text-decoration-none p-0 fs-7">Сбросить</a>
+                </h5>
+
+                <form method="get" asp-controller="CarProducts" asp-action="Index">
+                    
+
+                    <div class="mb-3">
+                        <label class="form-label text-light small fw-semibold">Поиск</label>
+                        <input asp-for="SearchTitle" class="form-control form-control-sm bg-dark text-light border-secondary" placeholder="Например, Civic Type R" />
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label class="form-label text-light small fw-semibold">Бренд</label>
+                        <select id="brandSelect" asp-for="SelectedBrandId" asp-items="Model.Brands" class="form-select form-select-sm bg-dark text-light border-secondary">
+                            <option value="">-- Выберите бренд --</option>
+                        </select>
+                    </div>
+
+
+                    <div class="mb-3">
+    <label class="form-label text-light small fw-semibold">Модель</label>
+   <select id="modelSelect" asp-for="SelectedModelId" class="form-select form-select-sm bg-dark text-light border-secondary" disabled>
+    <option value="">-- Сначала выберите бренд --</option>
+    @foreach (var modelItem in Model.Models)
+    {
+        <option value="@modelItem.Value" data-brand-id="@modelItem.Group?.Name">
+            @modelItem.Text
+        </option>
+    }
+</select>
+</div>
+
+
+                    <div class="mb-3">
+                        <label class="form-label text-light small fw-semibold">Кузов</label>
+                        <select asp-for="SelectedBodyTypeId" asp-items="Model.BodyTypes" class="form-select form-select-sm bg-dark text-light border-secondary">
+                            <option value="">Все типы</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-light small fw-semibold">Двигатель</label>
+                        <select asp-for="SelectedEngineTypeId" asp-items="Model.EngineTypes" class="form-select form-select-sm bg-dark text-light border-secondary">
+                            <option value="">Все типы</option>
+                        </select>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label class="form-label text-light small fw-semibold">Коробка передач</label>
+                        <select asp-for="SelectedTransmission" asp-items="Html.GetEnumSelectList<TransmissionType>()" class="form-select form-select-sm bg-dark text-light border-secondary">
+                            <option value="">Любая</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-light small fw-semibold">Привод</label>
+                        <select asp-for="SelectedDrive" asp-items="Html.GetEnumSelectList<CarDriveType>()" class="form-select form-select-sm bg-dark text-light border-secondary">
+                            <option value="">Любой</option>
+                        </select>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label class="form-label text-light small fw-semibold">Цена ($)</label>
+                        <div class="input-group input-group-sm mb-1">
+                            <input asp-for="MinPrice" type="number" class="form-control bg-dark text-light border-secondary" placeholder="От" />
+                            <input asp-for="MaxPrice" type="number" class="form-control bg-dark text-light border-secondary" placeholder="До" />
+                        </div>
+                    </div>
+
+
+                    <div class="mb-4">
+                        <label class="form-label text-light small fw-semibold">Год выпуска</label>
+                        <div class="input-group input-group-sm mb-1">
+                            <input asp-for="MinYear" type="number" class="form-control bg-dark text-light border-secondary" placeholder="От" />
+                            <input asp-for="MaxYear" type="number" class="form-control bg-dark text-light border-secondary" placeholder="До" />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-danger w-100 rounded-pill fw-semibold shadow-sm">
+                        Применить фильтры
+                    </button>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="col-lg-9">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h4 class="fw-bold text-white mb-0">Каталог автомобилей</h4>
+                <span class="text-white-50 small">Найдено: @Model.Products.Count()</span>
+            </div>
+
+            @if (!Model.Products.Any())
+            {
+                <div class="card bg-dark border-secondary p-5 text-center text-white-50 rounded-4">
+                    <i class="bi bi-search display-1 mb-3 text-secondary"></i>
+                    <p class="fs-5 mb-1">Автомобили по выбранным критериям не найдены.</p>
+                    <p class="small">Попробуйте ослабить фильтры или сбросить их.</p>
+                </div>
+            }
+            else
+            {
+                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+                    @foreach (var car in Model.Products)
+                    {
+                        <partial name="_CarProductCard" model="car" />
+                    }
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const brandSelect = document.getElementById('brandSelect');
+            const modelSelect = document.getElementById('modelSelect');
+
+           
+            const allModelOptions = Array.from(modelSelect.options);
+
+            function updateModelSelect() {
+                const selectedBrandId = brandSelect.value;
+
+                if (!selectedBrandId) {
+                    modelSelect.disabled = true;
+                    modelSelect.innerHTML = '<option value="">-- Сначала выберите бренд --</option>';
+                    return;
+                }
+
+                modelSelect.disabled = false;
+                modelSelect.innerHTML = '<option value="">Все модели</option>';
+
+
+                allModelOptions.forEach(option => {
+                    if (option.value && (!option.dataset.brandId || option.dataset.brandId === selectedBrandId)) {
+                        modelSelect.appendChild(option.cloneNode(true));
+                    }
+                });
+            }
+
+            if (brandSelect.value) {
+                updateModelSelect();
+                modelSelect.value = "@(Model.SelectedModelId?.ToString() ?? "")";
+            }
+
+            brandSelect.addEventListener('change', updateModelSelect);
+        });
+    </script>
+}

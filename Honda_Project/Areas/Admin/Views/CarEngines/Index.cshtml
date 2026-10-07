@@ -1,0 +1,86 @@
+﻿@model List<EngineRow>
+
+@{
+    ViewData["Title"] = "Двигатели";
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden admin-table-card">
+
+        <div class="card-header bg-transparent border-secondary p-4 d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="fw-bold text-white mb-1">Car Engine Management</h4>
+                <p class="text-secondary mb-0 fs-7">Manage and edit registered automobile Engines</p>
+            </div>
+            <a asp-controller="CarEngines" asp-action="Create" class="btn btn-danger rounded-pill px-4 fw-semibold">
+                + Add New Engine
+            </a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle mb-0 custom-admin-table">
+                <thead>
+                    <tr class="text-secondary text-uppercase fs-7 border-secondary">
+                        <th scope="col" style="width: 200px;">Body Name</th>
+                        <th scope="col">Volume</th>>
+                        <th scope="col">Horse Power</th>>
+                        <th scope="col">Fuel Type</th>>
+                        <th scope="col">Products Count</th>>
+                        <th scope="col" class="text-end pe-4" style="width: 180px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var body in Model)
+                    {
+
+                        <tr class="border-secondary">
+
+                            <td>
+                                <span class="fw-bold text-white fs-6">@body.Name</span>
+                            </td>
+
+
+                            <td>
+                                <span class="fw-bold text-white fs-6">@body.Volume</span>
+                            </td>
+
+                            <td>
+                                <span class="fw-bold text-white fs-6">@body.Horsepower</span>
+                            </td>
+
+                            <td>
+                                <span class="fw-bold text-white fs-6">@body.FuelType</span>
+                            </td>
+
+                            <td>
+                                <span class="fw-bold text-white fs-6">@body.ProductsCount</span>
+                            </td>
+
+
+                            <td class="text-end pe-4">
+                                <div class="d-inline-flex gap-2">
+                                    <a asp-area="Admin"
+                                       asp-controller="CarEngines"
+                                       asp-action="Edit"
+                                       asp-route-id="@body.Id"
+                                       class="btn btn-sm btn-outline-warning rounded-3"
+                                       title="Edit">
+                                        Edit
+                                    </a>
+                                    <a asp-area="Admin"
+                                       asp-controller="CarEngines"
+                                       asp-action="Delete"
+                                       asp-route-id="@body.Id"
+                                       class="btn btn-sm btn-outline-danger rounded-3"
+                                       title="Delete">
+                                        Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+}

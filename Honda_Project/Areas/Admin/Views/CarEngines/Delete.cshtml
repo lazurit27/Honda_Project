@@ -1,0 +1,77 @@
+﻿@using Honda_Project.Enums
+@model Honda_Project.Areas.Admin.ViewsModels.EngineDelete
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Удаление двигателя";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card bg-dark text-white shadow-lg border-danger rounded-4">
+                <div class="card-header border-danger bg-danger bg-opacity-10 p-4 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-1 text-danger fw-bold">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>Удаление двигателя
+                        </h4>
+                        <p class="text-muted mb-0 fs-7">Вы действительно хотите безвозвратно удалить этот двигатель?</p>
+                    </div>
+                    <span class="badge bg-danger px-3 py-2 fs-7">ID: @Model.Id</span>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <div class="p-3 mb-4 rounded-3 engine-info-box">
+                        <dl class="row mb-0 gy-2 fs-7">
+                            <dt class="col-sm-4 text-muted">Название:</dt>
+                            <dd class="col-sm-8 fw-bold text-danger mb-0">@Model.Name</dd>
+
+                            <dt class="col-sm-4 text-muted">Объём:</dt>
+                            <dd class="col-sm-8 text-white mb-0">@(Model.Volume.HasValue ? $"{Model.Volume.Value} л" : "Н/Д")</dd>
+
+                            <dt class="col-sm-4 text-muted">Мощность:</dt>
+                            <dd class="col-sm-8 text-white mb-0">@Model.Horsepower л.с.</dd>
+
+                            <dt class="col-sm-4 text-muted">Тип топлива:</dt>
+                            <dd class="col-sm-8 mb-0">
+                                <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-25 px-2 py-1">@Model.FuelType</span>
+                            </dd>
+                        </dl>
+                    </div>
+
+                    @if (Model.CarProductsNames != null && Model.CarProductsNames.Any())
+                    {
+                        <div class="alert alert-danger bg-danger bg-opacity-10 border-danger border-opacity-25 text-light rounded-3 p-3 mb-4">
+                            <h6 class="text-danger fw-bold mb-2 fs-7">
+                                <i class="bi bi-shield-exclamation me-1"></i>
+                                Внимание! Связанные автомобили (@Model.CarProductsNames.Count):
+                            </h6>
+                            <p class="mb-2 fs-7 text-white-50">При удалении этого двигателя будут обработаны следующие связанные авто:</p>
+                            <ul class="mb-0 fs-7 ps-3 text-white-50">
+                                @foreach (var carName in Model.CarProductsNames)
+                                {
+                                    <li><strong class="text-white">@carName</strong></li>
+                                }
+                            </ul>
+                        </div>
+                    }
+
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="d-flex align-items-center justify-content-between pt-3 border-top border-secondary">
+                            <a asp-action="Index" class="btn btn-outline-light rounded-pill px-4 py-2 fw-semibold">
+                                <i class="bi bi-arrow-left me-1"></i>Отмена
+                            </a>
+                            <button type="submit" class="btn btn-danger rounded-pill px-4 py-2 fw-bold">
+                                <i class="bi bi-trash-fill me-1"></i>Подтвердить удаление
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

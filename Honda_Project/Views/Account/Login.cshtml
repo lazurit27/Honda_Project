@@ -1,0 +1,50 @@
+﻿@model AccountLogin
+
+@{
+    ViewData["Title"] = "Sign In";
+}
+
+<div class="container py-5 d-flex justify-content-center align-items-center">
+    <div class="card bg-dark text-white border-secondary rounded-4 shadow-lg p-4" style="max-width: 450px; width: 100%;">
+        <div class="card-body">
+            <h2 class="fw-bold mb-1">Sign In</h2>
+            <p class="text-secondary small mb-4">Enter your credentials to access your account</p>
+
+            <form asp-action="Login" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3 small"></div>
+
+                <input type="hidden" asp-for="ReturnUrl" />
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label text-light fw-semibold"></label>
+                    <input asp-for="Email" class="form-control bg-dark text-white border-secondary rounded-3 py-2" placeholder="name@example.com" />
+                    <span asp-validation-for="Email" class="text-danger small mt-1 d-block"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label text-light fw-semibold"></label>
+                    <input asp-for="Password" type="password" class="form-control bg-dark text-white border-secondary rounded-3 py-2" placeholder="••••••••" />
+                    <span asp-validation-for="Password" class="text-danger small mt-1 d-block"></span>
+                </div>
+
+                <div class="mb-4 form-check">
+                    <input asp-for="RememberMe" class="form-check-input bg-dark border-secondary" />
+                    <label asp-for="RememberMe" class="form-check-label text-secondary small"></label>
+                </div>
+
+                <div class="d-flex align-items-center gap-2 pt-2">
+                    <button type="submit" class="btn btn-danger rounded-pill w-100 py-2 fw-semibold">
+                        Sign In
+                    </button>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary rounded-pill w-100 py-2 fw-semibold">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

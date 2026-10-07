@@ -1,0 +1,155 @@
+﻿
+@model CarBrandDetails
+
+@{
+    ViewData["Title"] = Model?.Name ?? "Детали бренда";
+}
+
+
+<div class="card border-0 shadow-sm rounded-4 p-4 mb-5 brand-header-card">
+    <div class="d-flex align-items-center flex-wrap gap-4">
+        @if (!string.IsNullOrEmpty(Model.LogoUrl))
+        {
+            <div class="brand-header-logo p-3 rounded-3 d-flex align-items-center justify-content-center shadow-sm">
+                <img src="@Model.LogoUrl"
+                     class="img-fluid"
+                     style="max-height: 80px; max-width: 150px; object-fit: contain;"
+                     onerror="this.onerror=null;this.src='/ImagePlaceholder.jpg'"
+                     alt="@Model.Name logo" />
+            </div>
+        }
+        <div class="flex-grow-1">
+            <h1 class="fw-bold mb-2 text-white">@Model.Name</h1>
+            <p class="text-secondary fs-6 mb-0 opacity-75">
+                @(string.IsNullOrWhiteSpace(Model.Description) ? "Описание бренда отсутствует." : Model.Description)
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <h3 class="fw-bold m-0 text-white">Модельный <span class="text-danger">ряд</span></h3>
+    <a asp-controller="CarBrands" asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 btn-back">
+        &larr; Назад к брендам
+    </a>
+</div>
+
+
+@if (Model.CarModels == null || !Model.CarModels.Any())
+{
+    <div class="alert alert-dark text-center border-0 shadow-sm rounded-4 py-4 dark-alert" role="alert">
+        <i class="bi bi-car-front fs-2 text-danger d-block mb-2"></i>
+        <span class="text-secondary">У данного бренда пока нет добавленных моделей.</span>
+    </div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
+        @foreach (var carModel in Model.CarModels)
+        {
+            var modelLogoSrc = string.IsNullOrEmpty(carModel.ModelLogoUrl) ? "/ImagePlaceholder.jpg" : carModel.ModelLogoUrl;
+
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm model-card rounded-4 overflow-hidden">
+
+                    <div class="model-image-wrapper d-flex align-items-center justify-content-center">
+                        <img src="@modelLogoSrc"
+                             class="card-img-top model-img"
+                             onerror="this.onerror=null;this.src='/ImagePlaceholder.jpg'"
+                             alt="@carModel.Name" />
+                    </div>
+
+
+                    <div class="card-body d-flex flex-column p-4">
+                        <h5 class="card-title fw-bold text-white mb-2">@carModel.Name</h5>
+                        <p class="card-text text-secondary flex-grow-1 fs-6">
+                            @(string.IsNullOrWhiteSpace(carModel.Description) ? "Описание модели отсутствует." : carModel.Description)
+                        </p>
+                    </div>
+
+
+                    <div class="card-footer bg-transparent border-0 p-4 pt-0">
+                        <a asp-controller="CarModels"
+                               asp-action="Details"
+                               asp-route-id="@carModel.Id"
+                               class="btn btn-outline-danger w-100 rounded-pill fw-semibold py-2 transition-btn">
+                            Смотреть автомобили &rarr;
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+
+<style>
+    .brand-header-card {
+        background-color: #16171a;
+        border: 1px solid #2a2c30 !important;
+    }
+
+    .brand-header-logo {
+        min-width: 120px;
+        min-height: 90px;
+        background-color: #0f0f11;
+        border: 1px solid #2a2c30;
+    }
+
+    .model-card {
+        background-color: #16171a;
+        border: 1px solid #2a2c30 !important;
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+        .model-card:hover {
+            transform: translateY(-6px);
+            border-color: #dc3545 !important;
+            box-shadow: 0 12px 24px rgba(220, 53, 69, 0.18) !important;
+        }
+
+    .model-image-wrapper {
+        height: 200px;
+        overflow: hidden;
+        background-color: #0f0f11;
+        border-bottom: 1px solid #2a2c30;
+    }
+
+    .model-img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .model-card:hover .model-img {
+        transform: scale(1.05);
+    }
+
+    .btn-outline-danger {
+        color: #ff5252;
+        border-color: #dc3545;
+    }
+
+        .btn-outline-danger:hover {
+            background-color: #dc3545;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        }
+
+    .btn-back {
+        color: #a0a5ab;
+        border-color: #3a3f45;
+    }
+
+        .btn-back:hover {
+            background-color: #2a2c30;
+            color: #ffffff;
+            border-color: #4a4f55;
+        }
+
+    .dark-alert {
+        background-color: #16171a;
+        border: 1px solid #2a2c30;
+    }
+</style>

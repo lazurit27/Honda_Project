@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Honda_Project</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Honda_Project.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark custom-navbar border-bottom">
+            <div class="container-fluid px-4">
+
+                <a class="navbar-brand fw-bold fs-4 me-4" asp-area="" asp-controller="Home" asp-action="Index">
+                    Honda_<span class="text-danger">Project</span>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1 gap-1">
+                        <li class="nav-item">
+                            <a class="nav-link px-3 rounded-pill nav-custom-link" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-3 rounded-pill nav-custom-link" asp-area="" asp-controller="CarBrands" asp-action="Index">Бренды</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-3 rounded-pill nav-custom-link" asp-area="" asp-controller="CarProducts" asp-action="Index">Все авто</a>
+                        </li>
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item ms-2">
+                                <a class="nav-link px-3 rounded-pill bg-danger text-white fw-bold" asp-area="Admin" asp-controller="CarBrands" asp-action="Index">
+                                    <i class="bi bi-shield-lock me-1"></i>Админ-панель
+                                </a>
+                            </li>
+                        }
+                    </ul>
+
+                    <div class="d-flex align-items-center gap-3">
+                        @await Component.InvokeAsync("FavoriteSummary")
+                        <partial name="_LoginPartial" />
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <style>
+            .custom-navbar {
+                background-color: #16171a;
+                border-bottom-color: #2a2c30 !important;
+            }
+
+            .nav-custom-link {
+                color: #d1d5db !important;
+                font-weight: 500;
+                transition: all 0.2s ease;
+            }
+
+                .nav-custom-link:hover,
+                .nav-custom-link:focus {
+                    color: #ffffff !important;
+                    background-color: rgba(220, 53, 69, 0.15);
+                }
+
+                .nav-custom-link.active {
+                    color: #ffffff !important;
+                    background-color: #dc3545;
+                }
+    </style>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer bg-dark text-light border-top border-secondary border-opacity-25 pt-5 pb-4 mt-auto">
+    <div class="container">
+        <div class="row g-4">
+            
+
+            <div class="col-lg-4 col-md-6">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="fs-4 fw-bold text-danger me-2"><i class="bi bi-speedometer2"></i></span>
+                    <span class="fs-4 fw-bold text-white tracking-wide">Honda<span class="text-danger">Project</span></span>
+                </div>
+                <p class="text-white-50 small mb-3">
+                    Эксклюзивный каталог автомобилей Honda. Подбор, спецификации и подробная информация о лучших моделях марки.
+                </p>
+                <div class="d-flex gap-2">
+                    <a href="https://www.youtube.com/Honda" class="btn btn-outline-secondary btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                        <i class="bi bi-youtube text-light"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+                <h6 class="text-uppercase fw-bold text-white mb-3 tracking-wider">Навигация</h6>
+                <ul class="list-unstyled text-small">
+                    <li class="mb-2"><a class="text-white-50 text-decoration-none footer-link" asp-controller="Home" asp-action="Index">Главная</a></li>
+                    <li class="mb-2"><a class="text-white-50 text-decoration-none footer-link" href="#">Каталог авто</a></li>
+                    <li class="mb-2"><a class="text-white-50 text-decoration-none footer-link" href="#">О нас</a></li>
+                    <li class="mb-2"><a class="text-white-50 text-decoration-none footer-link" asp-controller="Home" asp-action="Privacy">Конфиденциальность</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <h6 class="text-uppercase fw-bold text-white mb-3 tracking-wider">Контакты</h6>
+                <ul class="list-unstyled text-white-50 small">
+                    <li class="mb-2 d-flex align-items-center"><i class="bi bi-geo-alt text-danger me-2"></i> Baku, Azerbaijan</li>
+                    <li class="mb-2 d-flex align-items-center"><i class="bi bi-envelope text-danger me-2"></i> support@hondaproject.local</li>
+                    <li class="mb-2 d-flex align-items-center"><i class="bi bi-telephone text-danger me-2"></i> +994 (880) 555-35-35</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <hr class="my-4 border-secondary opacity-25">
+
+
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center text-white-50 small">
+            <div>
+                &copy; 2026 <strong>Honda_Project</strong>. Все права защищены.
+            </div>
+            <div class="mt-2 mt-sm-0">
+                <a class="text-white-50 text-decoration-none me-3 footer-link" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+                <a class="text-white-50 text-decoration-none footer-link" href="#">Terms of Service</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

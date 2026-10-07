@@ -1,0 +1,102 @@
+﻿
+@model CarModelDetails
+
+@{
+    ViewData["Title"] = Model?.Name ?? "Детали модели";
+}
+
+
+<div class="card border-0 shadow-sm rounded-4 p-4 mb-5 model-header-card">
+    <div class="d-flex align-items-center flex-wrap gap-4">
+        @if (!string.IsNullOrEmpty(Model.ModelLogoUrl))
+        {
+            <div class="model-header-logo p-3 rounded-3 d-flex align-items-center justify-content-center shadow-sm">
+                <img src="@Model.ModelLogoUrl"
+                     class="img-fluid"
+                     style="max-height: 80px; max-width: 150px; object-fit: contain;"
+                     onerror="this.onerror=null;this.src='/ImagePlaceholder.jpg'"
+                     alt="@Model.Name logo" />
+            </div>
+        }
+        <div class="flex-grow-1">
+            <h1 class="fw-bold mb-2 text-white">@Model.Name</h1>
+            <p class="text-secondary fs-6 mb-0 opacity-75">
+                @(string.IsNullOrWhiteSpace(Model.Description) ? "Описание модели отсутствует." : Model.Description)
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <h3 class="fw-bold m-0 text-white">Доступные <span class="text-danger">автомобили</span></h3>
+    <a asp-controller="CarBrands"
+           asp-action="Details"
+           asp-route-id="@Model.CarBrandId"
+        class="btn btn-outline-secondary rounded-pill px-4 btn-back">
+        &larr; Назад к моделям
+    </a>
+</div>
+
+
+@if (Model.CarProducts == null || !Model.CarProducts.Any())
+{
+    <div class="alert alert-dark text-center border-0 shadow-sm rounded-4 py-4 dark-alert" role="alert">
+        <i class="bi bi-car-front fs-2 text-danger d-block mb-2"></i>
+        <span class="text-secondary">В данной категории пока нет доступных автомобилей.</span>
+    </div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
+        @foreach (var carProduct in Model.CarProducts)
+        {
+            <partial name="_CarProductCard" model="carProduct"></partial>
+        }
+    </div>
+}
+
+
+<style>
+    .model-header-card {
+        background-color: #16171a;
+        border: 1px solid #2a2c30 !important;
+    }
+
+    .model-header-logo {
+        min-width: 120px;
+        min-height: 90px;
+        background-color: #0f0f11;
+        border: 1px solid #2a2c30;
+    }
+    .btn-outline-danger {
+        color: #ff5252;
+        border-color: #dc3545;
+    }
+
+        .btn-outline-danger:hover {
+            background-color: #dc3545;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        }
+
+    .btn-back {
+        color: #a0a5ab;
+        border-color: #3a3f45;
+    }
+
+        .btn-back:hover {
+            background-color: #2a2c30;
+            color: #ffffff;
+            border-color: #4a4f55;
+        }
+
+    .dark-alert {
+        background-color: #16171a;
+        border: 1px solid #2a2c30;
+    }
+
+    .backdrop-blur {
+        backdrop-filter: blur(4px);
+    }
+</style>

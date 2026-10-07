@@ -1,0 +1,126 @@
+﻿@using Honda_Project.Enums
+@model CarProductCreate
+
+@{
+    ViewData["Title"] = "Create Car Product";
+}
+
+<div class="d-flex align-items-center justify-content-between my-4">
+    <a asp-area="Admin" asp-controller="CarProducts" asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 btn-back">
+        &larr; Back to Products List
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm car-detail-card rounded-4 p-4 mb-5">
+    <div class="mb-4">
+        <h3 class="fw-bold text-white mb-1">Add New Car Product</h3>
+        <p class="text-secondary mb-0 fs-7">Fill in the specifications and options to register a new vehicle item</p>
+    </div>
+
+    <form asp-area="Admin" asp-controller="CarProducts" asp-action="Create" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="row g-4">
+
+            <div class="col-md-8">
+                <label asp-for="Title" class="form-label text-light fw-semibold"></label>
+                <input asp-for="Title" class="form-control bg-dark text-light border-secondary rounded-3" placeholder="e.g. Honda Civic Type R" />
+                <span asp-validation-for="Title" class="text-danger fs-7"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Price" class="form-label text-light fw-semibold"></label>
+                <div class="input-group">
+                    <span class="input-group-text bg-dark border-secondary text-secondary">$</span>
+                    <input asp-for="Price" type="number" step="0.01" class="form-control bg-dark text-light border-secondary" placeholder="0.00" />
+                </div>
+                <span asp-validation-for="Price" class="text-danger fs-7"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Year" class="form-label text-light fw-semibold"></label>
+                <input asp-for="Year" type="number" class="form-control bg-dark text-light border-secondary rounded-3" placeholder="2024" />
+                <span asp-validation-for="Year" class="text-danger fs-7"></span>
+            </div>
+
+
+            <div class="col-md-4">
+                <label asp-for="Color" class="form-label text-light fw-semibold"></label>
+                <input asp-for="Color" class="form-control bg-dark text-light border-secondary rounded-3" placeholder="e.g. Championship White" />
+                <span asp-validation-for="Color" class="text-danger fs-7"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="MainImage" class="form-label text-light fw-semibold"></label>
+                <input asp-for="MainImage" type="file" accept="image/*" class="form-control bg-dark text-light border-secondary rounded-3" />
+                <span asp-validation-for="MainImage" class="text-danger fs-7"></span>
+            </div>
+
+
+            <div class="col-md-4">
+                <label asp-for="CarModelId" class="form-label text-light fw-semibold"></label>
+                <select asp-for="CarModelId" asp-items="Model.Models" class="form-select bg-dark text-light border-secondary rounded-3">
+                    <option value="">-- Select Model --</option>
+                </select>
+                <span asp-validation-for="CarModelId" class="text-danger fs-7"></span>
+            </div>
+
+
+            <div class="col-md-4">
+                <label asp-for="CarBodyTypeId" class="form-label text-light fw-semibold"></label>
+                <select asp-for="CarBodyTypeId" asp-items="Model.Bodies" class="form-select bg-dark text-light border-secondary rounded-3">
+                    <option value="">-- Select Body Type --</option>
+                </select>
+                <span asp-validation-for="CarBodyTypeId" class="text-danger fs-7"></span>
+            </div>
+
+
+            <div class="col-md-4">
+                <label asp-for="CarEngineTypeId" class="form-label text-light fw-semibold"></label>
+                <select asp-for="CarEngineTypeId" asp-items="Model.Engines" class="form-select bg-dark text-light border-secondary rounded-3">
+                    <option value="">-- Select Engine --</option>
+                </select>
+                <span asp-validation-for="CarEngineTypeId" class="text-danger fs-7"></span>
+            </div>
+
+
+            <div class="col-md-6">
+                <label asp-for="Transmission" class="form-label text-light fw-semibold"></label>
+                <select asp-for="Transmission" asp-items="Html.GetEnumSelectList<TransmissionType>()" class="form-select bg-dark text-light border-secondary rounded-3">
+                    <option value="">-- Select Transmission --</option>
+                </select>
+                <span asp-validation-for="Transmission" class="text-danger fs-7"></span>
+            </div>
+
+
+            <div class="col-md-6">
+                <label asp-for="Drive" class="form-label text-light fw-semibold"></label>
+                <select asp-for="Drive" asp-items="Html.GetEnumSelectList<CarDriveType>()" class="form-select bg-dark text-light border-secondary rounded-3">
+                    <option value="">-- Select Drive Type --</option>
+                </select>
+                <span asp-validation-for="Drive" class="text-danger fs-7"></span>
+            </div>
+
+
+            <div class="col-12">
+                <label asp-for="Description" class="form-label text-light fw-semibold"></label>
+                <textarea asp-for="Description" rows="4" class="form-control bg-dark text-light border-secondary rounded-3" placeholder="Enter detailed information about the vehicle..."></textarea>
+                <span asp-validation-for="Description" class="text-danger fs-7"></span>
+            </div>
+
+
+            <div class="col-12 d-flex justify-content-end gap-3 mt-4">
+                <a asp-area="Admin" asp-controller="CarProducts" asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                    Cancel
+                </a>
+                <button type="submit" class="btn btn-danger rounded-pill px-5 fw-semibold shadow-sm">
+                    Create Product
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

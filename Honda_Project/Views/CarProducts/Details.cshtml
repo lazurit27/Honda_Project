@@ -1,0 +1,272 @@
+﻿
+@model CarProductDetails
+
+@{
+    ViewData["Title"] = Model?.Title ?? "Car Details";
+    var imageSrc = string.IsNullOrEmpty(Model?.MainImageUrl) ? "/ImagePlaceholder.jpg" : Model.MainImageUrl;
+    bool isDisabled = Model != null && (!Model.IsAvailable || (Model.GetType().GetProperty("IsActive") != null && !(bool)Model.GetType().GetProperty("IsActive")!.GetValue(Model)!));
+    
+    var favList = Context.Session.GetObject<List<Honda_Project.Favorite.FavoriteItem>>("Favorite") ?? new();
+    bool isFavorite = Model != null && favList.Any(x => x.ProductID == Model.Id);
+}
+
+<div class="d-flex align-items-center justify-content-between my-4">
+    <a asp-controller="CarProducts" asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 btn-back">
+        &larr; Back to Catalog
+    </a>
+    @if (Model?.CarModel != null)
+    {
+        <a asp-controller="CarModels" asp-action="Details" asp-route-id="@Model.CarModel.Id" class="btn btn-outline-danger rounded-pill px-4">
+            Model: @Model.CarModel.Name &rarr;
+        </a>
+    }
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm car-detail-card rounded-4 overflow-hidden position-relative h-100">
+            <div class="position-absolute top-0 end-0 m-3 z-2">
+                @if (isDisabled)
+                {
+                    <span class="badge bg-secondary bg-opacity-75 backdrop-blur px-3 py-2 rounded-pill fs-6">
+                        <i class="bi bi-slash-circle me-1"></i>Неактивен
+                    </span>
+                }
+                else if (Model != null && Model.IsAvailable)
+                {
+                    <span class="badge bg-success bg-opacity-75 backdrop-blur px-3 py-2 rounded-pill fs-6">
+                        <i class="bi bi-check-circle me-1"></i>In Stock
+                    </span>
+                }
+                else
+                {
+                    <span class="badge bg-secondary bg-opacity-75 backdrop-blur px-3 py-2 rounded-pill fs-6">
+                        <i class="bi bi-clock me-1"></i>On Order
+                    </span>
+                }
+            </div>
+
+            <div class="detail-image-wrapper d-flex align-items-center justify-content-center p-3 position-relative overflow-hidden h-100 min-vh-40">
+                <img src="@imageSrc"
+                     class="img-fluid detail-img rounded-3 object-fit-contain @(isDisabled ? "inactive-img" : "")"
+                     style="max-height: 420px; width: 100%; object-fit: cover;"
+                     onerror="this.onerror=null;this.src='/ImagePlaceholder.jpg'"
+                     alt="@(Model?.Title ?? "Car Image")" />
+
+                @if (isDisabled)
+                {
+                    <div class="inactive-overlay d-flex flex-column align-items-center justify-content-center position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-75">
+                        <i class="bi bi-lock-fill display-3 text-secondary mb-2"></i>
+                        <span class="badge bg-dark border border-secondary text-light px-4 py-2 fs-5 fw-bold">
+                            ТОВАР НЕАКТИВЕН
+                        </span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card border-0 shadow-sm car-detail-card rounded-4 p-4 h-100 d-flex flex-column justify-content-between">
+            <div>
+                @if (Model?.CarModel != null && !string.IsNullOrEmpty(Model.CarModel.ModelLogoUrl))
+                {
+                    <div class="mb-3">
+                        <img src="@Model.CarModel.ModelLogoUrl" alt="@Model.CarModel.Name logo" class="model-badge-logo" />
+                    </div>
+                }
+                <h1 class="fw-bold text-white display-5 mb-2">@(Model?.Title ?? "N/A")</h1>
+                <div class="d-flex align-items-center gap-2 mb-4">
+                    <span class="badge bg-dark border border-secondary text-light px-3 py-2 fs-6">@(Model?.Year ?? 0) Year</span>
+                    @if (Model?.CarBodyType != null)
+                    {
+                        <span class="badge bg-dark border border-secondary text-light px-3 py-2 fs-6">@Model.CarBodyType.Name</span>
+                    }
+                </div>
+
+                <div class="price-box p-3 rounded-3 mb-4">
+                    <span class="text-secondary d-block fs-6 mb-1">Price</span>
+                    <span class="display-6 fw-bold text-danger">$@(Model?.Price.ToString("N0") ?? "0")</span>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-6">
+                        <div class="spec-tile p-3 rounded-3">
+                            <span class="text-secondary d-block fs-7">Transmission</span>
+                            <span class="fw-semibold text-white fs-6">@(string.IsNullOrWhiteSpace(Model?.Transmission) ? "N/A" : Model.Transmission)</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="spec-tile p-3 rounded-3">
+                            <span class="text-secondary d-block fs-7">Drive Type</span>
+                            <span class="fw-semibold text-white fs-6">@(string.IsNullOrWhiteSpace(Model?.Drive) ? "N/A" : Model.Drive)</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="spec-tile p-3 rounded-3">
+                            <span class="text-secondary d-block fs-7">Color</span>
+                            <span class="fw-semibold text-white fs-6">@(string.IsNullOrWhiteSpace(Model?.Color) ? "N/A" : Model.Color)</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="spec-tile p-3 rounded-3">
+                            <span class="text-secondary d-block fs-7">Engine</span>
+                            <span class="fw-semibold text-white fs-6">@(Model?.CarEngineType?.Name ?? "N/A")</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2 mt-auto pt-3">
+                @if (isDisabled)
+{
+    <button class="btn btn-danger btn-lg rounded-pill fw-semibold shadow-sm flex-grow-1 py-3 disabled btn-disabled" disabled>
+        <i class="bi bi-cart-plus me-2"></i>Purchase
+    </button>
+}
+else
+{
+    <a asp-controller="Order" 
+       asp-action="Create" 
+       asp-route-productId="@Model?.Id" 
+       class="btn btn-danger btn-lg rounded-pill fw-semibold shadow-sm flex-grow-1 py-3 btn-hover d-flex align-items-center justify-content-center text-decoration-none">
+        <i class="bi bi-cart-plus me-2"></i>Purchase
+    </a>
+}
+                
+                <button type="button" 
+                        class="btn btn-outline-light btn-lg rounded-pill fw-semibold py-3 px-4 d-flex align-items-center justify-content-center btn-favorite-toggle @(isFavorite ? "active" : "")" 
+                        data-id="@Model?.Id" 
+                        title="В избранное">
+                    <i class="bi @(isFavorite ? "bi-heart-fill text-danger" : "bi-heart text-white") fs-4 js-fav-icon"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm car-detail-card rounded-4 p-4 h-100">
+            <h4 class="fw-bold text-white mb-4">Engine & <span class="text-danger">Performance</span></h4>
+            @if (Model?.CarEngineType != null)
+            {
+                <ul class="list-group list-group-flush border-0">
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent text-light border-secondary px-0 py-3">
+                        <span class="text-secondary">Engine Name</span>
+                        <span class="fw-semibold">@Model.CarEngineType.Name</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent text-light border-secondary px-0 py-3">
+                        <span class="text-secondary">Displacement (Volume)</span>
+                        <span class="fw-semibold">@Model.CarEngineType.Volume L</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent text-light border-secondary px-0 py-3">
+                        <span class="text-secondary">Horsepower</span>
+                        <span class="fw-semibold text-danger">@Model.CarEngineType.Horsepower HP</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent text-light border-secondary px-0 py-3 border-0">
+                        <span class="text-secondary">Fuel Type</span>
+                        <span class="fw-semibold">@(string.IsNullOrWhiteSpace(Model.CarEngineType.FuelType) ? "N/A" : Model.CarEngineType.FuelType)</span>
+                    </li>
+                </ul>
+            }
+            else
+            {
+                <p class="text-secondary m-0">Engine details are not available.</p>
+            }
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm car-detail-card rounded-4 p-4 h-100">
+            <h4 class="fw-bold text-white mb-4">Vehicle <span class="text-danger">Overview</span></h4>
+            <ul class="list-group list-group-flush border-0">
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent text-light border-secondary px-0 py-3">
+                    <span class="text-secondary">Model</span>
+                    <span class="fw-semibold">@(Model?.CarModel?.Name ?? "N/A")</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent text-light border-secondary px-0 py-3">
+                    <span class="text-secondary">Body Type</span>
+                    <span class="fw-semibold">@(Model?.CarBodyType?.Name ?? "N/A")</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent text-light border-secondary px-0 py-3">
+                    <span class="text-secondary">Transmission</span>
+                    <span class="fw-semibold">@(string.IsNullOrWhiteSpace(Model?.Transmission) ? "N/A" : Model.Transmission)</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent text-light border-secondary px-0 py-3 border-0">
+                    <span class="text-secondary">Drive Train</span>
+                    <span class="fw-semibold">@(string.IsNullOrWhiteSpace(Model?.Drive) ? "N/A" : Model.Drive)</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm car-detail-card rounded-4 p-4 mb-5">
+    <h4 class="fw-bold text-white mb-3">Description</h4>
+    <p class="text-secondary fs-6 mb-0 lh-lg">
+        @(string.IsNullOrWhiteSpace(Model?.Description) ? "No description provided for this vehicle." : Model.Description)
+    </p>
+</div>
+
+@if (Model?.RelatedCarProducts == null || !Model.RelatedCarProducts.Any())
+{
+    <div class="alert alert-dark text-center border-0 shadow-sm rounded-4 py-4 dark-alert" role="alert">
+        <i class="bi bi-car-front fs-2 text-danger d-block mb-2"></i>
+        <span class="text-secondary">В данной категории пока нет доступных автомобилей.</span>
+    </div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
+        @foreach (var carProduct in Model.RelatedCarProducts)
+        {
+            <partial name="_CarProductCard" model="carProduct"></partial>
+        }
+    </div>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const favButton = document.querySelector('.btn-favorite-toggle');
+            if (!favButton) return;
+
+            favButton.addEventListener('click', async function () {
+                const productId = this.getAttribute('data-id');
+                const icon = this.querySelector('.js-fav-icon');
+
+                try {
+                    const response = await fetch(`/Favorite/Toggle?id=${productId}`, {
+                        method: 'POST',
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    });
+
+                    if (!response.ok) return;
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        if (data.isAdded) {
+                            this.classList.add('active');
+                            icon.classList.remove('bi-heart', 'text-white');
+                            icon.classList.add('bi-heart-fill', 'text-danger');
+                        } else {
+                            this.classList.remove('active');
+                            icon.classList.remove('bi-heart-fill', 'text-danger');
+                            icon.classList.add('bi-heart', 'text-white');
+                        }
+
+                        const badge = document.querySelector('.badge-favorite-count');
+                        if (badge) {
+                            badge.textContent = data.count;
+                            badge.style.display = data.count > 0 ? 'inline-block' : 'none';
+                        }
+                    }
+                } catch (err) {
+                    console.error('Ошибка при переключении избранного:', err);
+                }
+            });
+        });
+    </script>
+}

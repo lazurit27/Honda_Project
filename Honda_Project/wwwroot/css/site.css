@@ -1,0 +1,347 @@
+
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+    background-color: #0d0e10;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #0d0e10;
+    color: #e1e3e6;
+    font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+}
+
+::selection {
+    background-color: #dc3545;
+    color: #ffffff;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0d0e10;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2a2c30;
+    border-radius: 4px;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #dc3545;
+    }
+
+
+.fs-7 {
+    font-size: 0.85rem !important;
+}
+
+.description-text {
+    max-width: 380px;
+}
+
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem #0d0e10, 0 0 0 0.25rem #dc3545;
+    border-color: #dc3545;
+}
+
+.form-control {
+    background-color: #16171a;
+    border-color: #2a2c30;
+    color: #ffffff;
+}
+
+    .form-control:focus {
+        background-color: #1a1c20;
+        color: #ffffff;
+    }
+
+
+.form-floating > .form-control-plaintext::placeholder,
+.form-floating > .form-control::placeholder {
+    color: #8a8f99;
+    text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder,
+.form-floating > .form-control:focus::placeholder {
+    text-align: start;
+}
+
+
+.custom-input {
+    background-color: #16171a !important;
+    border: 1px solid #2a2c30 !important;
+    color: #ffffff !important;
+    border-radius: 8px !important;
+    padding: 10px 14px !important;
+    transition: all 0.2s ease-in-out;
+}
+
+    .custom-input:focus {
+        background-color: #16171a !important;
+        border-color: #7593ff !important;
+        color: #ffffff !important;
+        box-shadow: 0 0 0 0.25rem rgba(117, 147, 255, 0.25) !important;
+    }
+
+    .custom-input option {
+        background-color: #16171a !important;
+        color: #ffffff !important;
+    }
+
+    .custom-input::placeholder {
+        color: #6c757d !important;
+    }
+
+.style-preview,
+.model-info-box,
+.engine-info-box {
+    background-color: #16171a;
+    border: 1px solid #2a2c30;
+    width: fit-content;
+}
+
+.model-logo-preview,
+.model-logo-placeholder {
+    width: 50px;
+    height: 50px;
+    background-color: #0f0f11;
+    border: 1px solid #2a2c30;
+}
+
+.model-logo-preview {
+    object-fit: contain;
+    padding: 6px;
+}
+
+.brand-logo-thumb {
+    width: 50px;
+    height: 40px;
+    background-color: #0f0f11;
+    border: 1px solid #2a2c30;
+}
+
+.logo-img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.admin-table-card {
+    background-color: #16171a;
+    border: 1px solid #2a2c30 !important;
+}
+
+.custom-admin-table {
+    --bs-table-bg: transparent;
+    --bs-table-hover-bg: #1f2125;
+}
+
+.admin-sidebar {
+    width: 250px;
+    min-height: 100vh;
+    background-color: #121315;
+    border-right: 1px solid #222428;
+}
+
+.admin-nav-link {
+    color: #8a8d93;
+    border-radius: 8px;
+    padding: 10px 14px;
+    text-decoration: none;
+    display: block;
+    transition: all 0.15s ease;
+    font-weight: 500;
+}
+
+    .admin-nav-link:hover {
+        color: #ffffff;
+        background-color: #1a1c20;
+    }
+
+    .admin-nav-link.active {
+        color: #ffffff;
+        background-color: #dc3545;
+    }
+
+.admin-content {
+    flex: 1;
+    padding: 30px;
+    background-color: #0d0d0e;
+}
+
+
+
+html, body {
+    background-color: #0d0e10 !important;
+    color: #ffffff !important;
+    min-height: 100vh !important;
+}
+
+
+.container, .container-fluid {
+    background-color: transparent !important;
+}
+
+.product-card {
+    background-color: #16171a !important;
+    border: 1px solid #2a2c30 !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        border-color: #dc3545 !important;
+        box-shadow: 0 10px 20px rgba(220, 53, 69, 0.15) !important;
+    }
+
+
+.product-image-wrapper {
+    height: 220px;
+    background-color: #0f0f11 !important;
+    border-bottom: 1px solid #2a2c30;
+}
+
+.product-img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-img {
+    transform: scale(1.05);
+}
+
+.backdrop-blur {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.description-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.6em;
+}
+
+.transition-btn {
+    transition: all 0.2s ease-in-out;
+}
+
+    .transition-btn:hover {
+        background-color: #dc3545;
+        color: #ffffff;
+        box-shadow: 0 0 12px rgba(220, 53, 69, 0.4);
+    }
+
+.car-detail-card {
+    background-color: #16171a;
+    border: 1px solid #2a2c30 !important;
+}
+
+.detail-image-wrapper {
+    min-height: 380px;
+    background-color: #0f0f11;
+}
+
+.detail-img {
+    max-height: 400px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    transition: filter 0.3s ease;
+}
+
+/* Эффект серой картинки для неактивного товара */
+.inactive-img {
+    filter: grayscale(85%) opacity(0.5);
+}
+
+/* Наложение поверх картинки при блокировке */
+.inactive-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 15, 17, 0.45);
+    pointer-events: none;
+}
+
+.model-badge-logo {
+    max-height: 40px;
+    max-width: 120px;
+    object-fit: contain;
+}
+
+.price-box,
+.spec-tile {
+    background-color: #0f0f11;
+    border: 1px solid #2a2c30;
+}
+
+.btn-back {
+    color: #a0a5ab;
+    border-color: #3a3f45;
+}
+
+    .btn-back:hover {
+        background-color: #2a2c30;
+        color: #ffffff;
+        border-color: #4a4f55;
+    }
+
+.btn-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .btn-hover:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(220, 53, 69, 0.35);
+    }
+
+.btn-favorite {
+    border-color: #3a3f45;
+    color: #e1e3e6;
+    transition: all 0.2s ease;
+}
+
+    .btn-favorite:hover:not(:disabled) {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
+
+
+.btn-disabled {
+    opacity: 0.4 !important;
+    cursor: not-allowed !important;
+    pointer-events: auto !important;
+}
+
+.footer-link {
+    transition: color 0.2s ease-in-out;
+}
+
+    .footer-link:hover {
+        color: #dc3545 !important; 
+    }

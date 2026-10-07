@@ -1,0 +1,131 @@
+﻿@model List<CarProductRow>
+
+@{
+    ViewData["Title"] = "Car Products Management";
+}
+
+<div class="card border-0 shadow-sm rounded-4 overflow-hidden admin-table-card">
+
+    <div class="card-header bg-transparent border-secondary p-4 d-flex justify-content-between align-items-center">
+        <div>
+            <h4 class="fw-bold text-white mb-1">Car Products Management</h4>
+            <p class="text-secondary mb-0 fs-7">Manage and edit registered automobile inventory items</p>
+        </div>
+        <a asp-area="Admin" asp-controller="CarProducts" asp-action="Create" class="btn btn-danger rounded-pill px-4 fw-semibold">
+            + Add New Product
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-dark table-hover align-middle mb-0 custom-admin-table">
+            <thead>
+                <tr class="text-secondary text-uppercase fs-7 border-secondary">
+                    <th scope="col" class="ps-4" style="width: 80px;">Image</th>
+                    <th scope="col" style="width: 220px;">Title</th>
+                    <th scope="col">Model / Spec</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Status</th>
+                    <th scope="col" class="text-end pe-4" style="width: 180px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model == null || !Model.Any())
+                {
+                    <tr>
+                        <td colspan="6" class="text-center py-4 text-secondary">
+                            <i class="bi bi-inbox fs-3 d-block mb-2"></i>
+                            No car products found.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var product in Model)
+                    {
+                        var imageSrc = string.IsNullOrEmpty(product.MainImageUrl) ? "/ImagePlaceholder.jpg" : product.MainImageUrl;
+
+                        <tr class="border-secondary">
+
+                            <td class="ps-4">
+                                <div class="brand-logo-thumb rounded-3 d-flex align-items-center justify-content-center p-1 overflow-hidden">
+                                    <img src="@imageSrc"
+                                         class="img-fluid logo-img"
+                                         onerror="this.onerror=null;this.src='/ImagePlaceholder.jpg'"
+                                         alt="@product.Title" />
+                                </div>
+                            </td>
+
+
+                            <td>
+                                <div class="d-flex flex-column">
+                                    <span class="fw-bold text-white fs-6 text-truncate" style="max-width: 200px;" title="@product.Title">
+                                        @product.Title
+                                    </span>
+                                    <span class="text-secondary fs-7">@product.Year Year</span>
+                                </div>
+                            </td>
+
+
+                            <td>
+                                <div class="d-flex flex-column">
+                                    <span class="fw-semibold text-light fs-7">
+                                        @(string.IsNullOrEmpty(product.CarModelName) ? "—" : product.CarModelName)
+                                    </span>
+                                    <span class="text-secondary fs-7">
+                                        @(string.IsNullOrEmpty(product.CarBodyTypeName) ? "N/A" : product.CarBodyTypeName)
+                                        @if (!string.IsNullOrEmpty(product.CarEngineTypeName))
+                                        {
+                                            <text> • @product.CarEngineTypeName</text>
+                                        }
+                                    </span>
+                                </div>
+                            </td>
+
+
+                            <td>
+                                <span class="fw-bold text-danger fs-6">$@product.Price.ToString("N0")</span>
+                            </td>
+
+                            <td>
+                                @if (product.IsAvailable)
+                                {
+                                    <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 px-2 py-1 rounded-pill fs-7">
+                                        In Stock
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary bg-opacity-25 text-secondary border border-secondary border-opacity-25 px-2 py-1 rounded-pill fs-7">
+                                        On Order
+                                    </span>
+                                }
+                            </td>
+
+
+                            <td class="text-end pe-4">
+                                <div class="d-inline-flex gap-2">
+                                    <a asp-area="Admin"
+                                       asp-controller="CarProducts"
+                                       asp-action="Edit"
+                                       asp-route-id="@product.Id"
+                                       class="btn btn-sm btn-outline-warning rounded-3"
+                                       title="Edit">
+                                        Edit
+                                    </a>
+                                    <a asp-area="Admin"
+                                       asp-controller="CarProducts"
+                                       asp-action="Delete"
+                                       asp-route-id="@product.Id"
+                                       class="btn btn-sm btn-outline-danger rounded-3"
+                                       title="Delete">
+                                        Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

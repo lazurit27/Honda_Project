@@ -1,0 +1,106 @@
+﻿@{
+    ViewData["Title"] = "Главная";
+}
+
+
+<div class="p-5 mb-5 rounded-4 text-center shadow-lg position-relative overflow-hidden hero-banner">
+    <div class="container-fluid py-4 position-relative z-1">
+        <h1 class="display-3 fw-bold mb-3 tracking-tight text-white">Honda <span class="text-danger">Store</span></h1>
+        <p class="col-md-8 fs-4 mx-auto text-light opacity-75">
+            Добро пожаловать в каталог автомобилей и спортивной техники. Исследуйте линейки Honda, Acura и Honda Motocross.
+        </p>
+        <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-4">
+            <a asp-controller="CarBrands" asp-action="Index" class="btn btn-danger btn-lg px-4 fw-semibold shadow-sm rounded-pill btn-hover">
+                Перейти к брендам
+            </a>
+            <a asp-controller="CarProducts" asp-action="Index" class="btn btn-outline-light btn-lg px-4 rounded-pill btn-hover">
+                Весь каталог
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<div class="row row-cols-1 row-cols-md-2 g-4 mb-5">
+
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0 text-center p-4 feature-card rounded-4">
+            <div class="card-body d-flex flex-column align-items-center">
+                <div class="icon-box mb-3 rounded-circle d-flex align-items-center justify-content-center">
+                    <span class="fs-2">🏁</span>
+                </div>
+                <h3 class="card-title h4 fw-bold text-white mb-3">Бренды</h3>
+                <p class="card-text text-secondary fs-6">Выберите производителя: Honda, Acura или спортивную линейку Honda Motocross.</p>
+            </div>
+            <div class="card-footer bg-transparent border-0 pb-2">
+                <a asp-controller="CarBrands" asp-action="Index" class="btn btn-outline-danger w-100 rounded-pill fw-medium py-2">
+                    Смотреть бренды
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0 text-center p-4 feature-card rounded-4">
+            <div class="card-body d-flex flex-column align-items-center">
+                <div class="icon-box mb-3 rounded-circle d-flex align-items-center justify-content-center">
+                    <span class="fs-2">🚗</span>
+                </div>
+                <h3 class="card-title h4 fw-bold text-white mb-3">Весь каталог</h3>
+                <p class="card-text text-secondary fs-6">Полный список доступной техники с ценами, характеристиками и фото.</p>
+            </div>
+            <div class="card-footer bg-transparent border-0 pb-2">
+                <a asp-controller="CarProducts" asp-action="Index" class="btn btn-outline-danger w-100 rounded-pill fw-medium py-2">
+                    В каталог
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .hero-banner {
+        background: linear-gradient(135deg, #0f0f11 0%, #18191c 50%, #222428 100%);
+        border: 1px solid #2a2c30;
+    }
+
+    .feature-card {
+        background-color: #16171a;
+        border: 1px solid #2a2c30 !important;
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: #dc3545 !important;
+            box-shadow: 0 12px 24px rgba(220, 53, 69, 0.18) !important;
+        }
+
+    .icon-box {
+        width: 68px;
+        height: 68px;
+        background-color: rgba(220, 53, 69, 0.12);
+        border: 1px solid rgba(220, 53, 69, 0.3);
+    }
+
+    .btn-hover {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .btn-hover:hover {
+            transform: translateY(-2px);
+        }
+
+    .btn-outline-danger {
+        color: #ff5252;
+        border-color: #dc3545;
+    }
+
+        .btn-outline-danger:hover {
+            background-color: #dc3545;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        }
+</style>

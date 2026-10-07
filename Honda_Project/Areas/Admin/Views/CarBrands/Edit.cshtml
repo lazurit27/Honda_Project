@@ -1,0 +1,66 @@
+﻿@using Honda_Project.Areas.Admin.ViewsModels
+@model CarBrandEdit
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Edit Car Brand";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 form-card">
+            <div class="card-header bg-transparent border-secondary p-4">
+                <h3 class="fw-bold text-white mb-1">Edit Model</h3>
+                <p class="text-secondary mb-0 fs-7">Update automobile model information</p>
+            </div>
+
+            <div class="card-body p-4">
+                <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="ExistingLogoUrl" />
+
+                    <div class="mb-4">
+                        <label asp-for="Name" class="form-label text-light fw-semibold">Brand Name</label>
+                        <input asp-for="Name" class="form-control custom-input" />
+                        <span asp-validation-for="Name" class="text-danger fs-7 mt-1 d-block"></span>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label text-light fw-semibold d-block">Logo Image</label>
+
+                        @if (!string.IsNullOrEmpty(Model.ExistingLogoUrl))
+                        {
+                            <div class="mb-3 d-flex align-items-center gap-3 p-2 rounded-3 border border-secondary style-preview">
+                                <img src="@Model.ExistingLogoUrl" alt="Current Logo" class="img-thumbnail bg-dark border-0" style="max-height: 60px;" />
+                                <span class="text-secondary fs-7">Current Logo</span>
+                            </div>
+                        }
+
+                        <input asp-for="NewLogoFile" value="@Model.ExistingLogoUrl" type="file" accept="image/*" class="form-control custom-input" />
+                        <small class="text-secondary d-block mt-1">Leave empty to keep current logo.</small>
+                        <span asp-validation-for="NewLogoFile" class="text-danger fs-7 mt-1 d-block"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Description" class="form-label text-light fw-semibold">Description</label>
+                        <textarea asp-for="Description" class="form-control custom-input" rows="4"></textarea>
+                        <span asp-validation-for="Description" class="text-danger fs-7 mt-1 d-block"></span>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3 pt-2">
+                        <button type="submit" class="btn btn-danger rounded-pill px-4 py-2 fw-semibold">
+                            Save Changes
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-semibold btn-cancel">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

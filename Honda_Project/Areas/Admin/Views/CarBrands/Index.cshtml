@@ -1,0 +1,90 @@
+﻿@model List<CarBrandRow>
+
+@{
+    ViewData["Title"] = "Бренды";
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden admin-table-card">
+
+        <div class="card-header bg-transparent border-secondary p-4 d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="fw-bold text-white mb-1">Car Brands Management</h4>
+                <p class="text-secondary mb-0 fs-7">Manage and edit registered automobile brands</p>
+            </div>
+            <a asp-controller="CarBrands" asp-action="Create" class="btn btn-danger rounded-pill px-4 fw-semibold">
+                + Add New Brand
+            </a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle mb-0 custom-admin-table">
+                <thead>
+                    <tr class="text-secondary text-uppercase fs-7 border-secondary">
+                        <th scope="col" class="ps-4" style="width: 80px;">Logo</th>
+                        <th scope="col" style="width: 200px;">Brand Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Models count</th>
+                        <th scope="col" class="text-end pe-4" style="width: 180px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var brand in Model)
+                    {
+                        var logoSrc = string.IsNullOrEmpty(brand.LogoUrl) ? "/ImagePlaceholder.jpg" : brand.LogoUrl;
+
+                        <tr class="border-secondary">
+                            <td class="ps-4">
+                                <div class="brand-logo-thumb rounded-3 d-flex align-items-center justify-content-center p-1">
+                                    <img src="@logoSrc"
+                                         class="img-fluid logo-img"
+                                         onerror="this.onerror=null;this.src='/ImagePlaceholder.jpg'"
+                                         alt="@brand.Name logo" />
+                                </div>
+                            </td>
+
+
+                            <td>
+                                <span class="fw-bold text-white fs-6">@brand.Name</span>
+                            </td>
+
+                            
+                            <td>
+                                <p class="text-secondary mb-0 text-truncate description-text">
+                                    @(string.IsNullOrWhiteSpace(brand.Description) ? "No description provided." : brand.Description)
+                                </p>
+                            </td>
+
+                            <td>
+                                <span class="fw-bold text-white fs-6">@brand.ModelsCount</span>
+                            </td>
+
+
+                            <td class="text-end pe-4">
+                                <div class="d-inline-flex gap-2">
+                                    <a asp-area="Admin" 
+                                    asp-controller="CarBrands"
+                                       asp-action="Edit"
+                                       asp-route-id="@brand.Id"
+                                       class="btn btn-sm btn-outline-warning rounded-3"
+                                       title="Edit">
+                                        Edit
+                                    </a>
+                                    <a
+                                    asp-area="Admin"
+                                    asp-controller="CarBrands"
+                                       asp-action="Delete"
+                                       asp-route-id="@brand.Id"
+                                       class="btn btn-sm btn-outline-danger rounded-3"
+                                       title="Delete">
+                                        Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    
+}
